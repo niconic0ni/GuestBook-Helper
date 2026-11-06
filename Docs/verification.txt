@@ -1,0 +1,183 @@
+编译校验程序（macOS，Foundation + SQLite + Compression）…
+Scripts/verify/main.swift:529:22: warning: no calls to throwing functions occur within 'try' expression
+527 |     try legacyDB.upsert(legacyItem)
+528 |     legacyDB.close()
+529 |     let rawSummary = try legacyStore.summary(forStoreID: "LEGACY")
+    |                      `- warning: no calls to throwing functions occur within 'try' expression
+530 |     let convertedSummary = try legacyStore.summary(forStoreID: "LEGACY", legacyOutAsSales: true)
+531 |     check(rawSummary?.soldCount == 0, "数据库摘要默认不计老出库")
+
+Scripts/verify/main.swift:530:28: warning: no calls to throwing functions occur within 'try' expression
+528 |     legacyDB.close()
+529 |     let rawSummary = try legacyStore.summary(forStoreID: "LEGACY")
+530 |     let convertedSummary = try legacyStore.summary(forStoreID: "LEGACY", legacyOutAsSales: true)
+    |                            `- warning: no calls to throwing functions occur within 'try' expression
+531 |     check(rawSummary?.soldCount == 0, "数据库摘要默认不计老出库")
+532 |     check(convertedSummary?.soldCount == 1, "数据库摘要开关开启后计入老出库")
+检查 Info.plist 的系统分享关联…
+   xlsx → GuestBook Helper 文档关联已注册
+   相机权限说明已注册
+运行数据与导入校验…
+ok    Store ID 去掉 .0
+ok    Store ID 提取数字
+ok    识别 EOH 文件名
+ok    识别 LOG 文件名
+ok    识别 RETURNED 状态
+ok    RETURNED 中文为退货
+ok    识别 TRANSFER_OUT 状态
+ok    TRANSFER_OUT 中文为出库
+ok    扫码去除开头的 S
+ok    扫码兼容小写与空白
+ok    扫码拒绝非 S 开头条码
+ok    扫码拒绝空序列号
+ok    实物条码 SAAAAAAAAAA 去除 S 后为 AAAAAAAAAA
+ok    总览包含 6 个可配置模块
+ok    总览模块标题唯一
+ok    日期格式包含年月日时分秒
+ok    Excel 日期转换保持本地时间
+ok    示例文件只生成一个 Store 数据库
+ok    数据库文件名为 Store ID
+ok    EOH 读取 58 行
+ok    LOG 读取 92 行
+ok    导入报告库存为 40
+ok    示例导入无 RETURNED 行
+ok    示例导入无 TRANSFER_OUT 行
+ok    导入报告包含记录日期范围
+ok    日期范围覆盖 2024 年 EOH 记录
+ok    数据库目录中只有一个 000000.ngbd
+ok    文件后缀为 .ngbd
+ok    .ngbd 是 SQLite 数据库
+ok    合并后共 108 条条目
+ok    示例可售库存为 40（良品 + 最新 EOH / 退货）
+ok    已售条目 50
+ok    展示机 18
+ok    LOG-only 条目状态未知 50
+ok    iPhone 在库 23
+ok    iPad 在库 9
+ok    AirPods 在库 5
+ok    Watch 在库 3
+ok    最新记录时间倒序
+ok    最新记录时间正序
+ok    筛选：在库 + 良品 = 40
+ok    库存页默认启用仅在库
+ok    库存页默认启用仅良品
+ok    库存页默认排除展示机与无记录销售
+ok    默认库存范围不显示为额外筛选条件
+ok    默认筛选只显示 40 条在库良品
+ok    默认筛选排除已售与出库条目
+ok    库存状态筛选始终包含退货
+ok    筛选：SELLOUT = 50
+ok    筛选：类别 + 容量
+ok    搜索：序列号
+ok    搜索：多个关键词 AND
+ok    筛选：记录日期区间有结果
+ok    筛选：记录日期按完整生命周期重叠
+ok    记录日期区间包含已售历史记录
+ok    记录日期区间包含在库记录
+ok    标签名称大小写/重复去重
+ok    标签写入条目
+ok    搜索包含自定义标签
+ok    筛选：自定义标签
+ok    无记录销售系统标签自动创建
+ok    无记录销售标签已写入条目
+ok    无记录销售条目不纳入库存
+ok    无记录销售使库存从 40 降为 39
+ok    数据库摘要排除无记录销售条目
+ok    移除无记录销售标签后库存恢复
+ok    再次导入后库存仍为 40
+ok    再次导入后标签保留
+ok    再次导入不会重复创建条目
+ok    LOG 导出是有效 ZIP 容器
+ok    LOG 导出表头与导入格式一致
+ok    LOG 导出行数正确
+ok    LOG 导出保留交易状态
+ok    LOG 导出的日期可原样读回
+ok    多 Store 文件拆分为两个数据库
+ok    数据库文件名来自各自 Store ID
+ok    Store 111 有 3 条条目
+ok    Store 111 数据库只包含 111 的条目
+ok    Store 111 在库 1
+ok    Store 111 已售 1
+ok    Store 222 有 3 条条目
+ok    Store 222 数据库只包含 222 的条目
+ok    Store 222 在库 1
+ok    Store 222 已售 1
+ok    RETURNED 文件只生成一个数据库
+ok    RETURNED 导入报告库存为 4
+ok    RETURNED 导入报告退货行数 5
+ok    RETURNED 导入报告无出库行
+ok    RETURNED 导入报告含日期范围
+ok    RETURNED 测试共 8 条条目
+ok    RETURNED 状态条目 5 条
+ok    RETURNED 计入可售库存（GOOD）
+ok    数据库摘要库存统计包含 RETURNED
+ok    RETURNED 不改变已售计数
+ok    EOH 中 RETURNED + GOOD 计入库存
+ok    RETURNED + DEMO 不计入库存
+ok    SELLOUT 后 RETURNED 为最新状态
+ok    RETURNED 保存退货日期
+ok    退货后重新计入库存
+ok    LOG 中的 RETURNED 可为最新 EOH 之外的退货
+ok    最新 EOH 之外的 GOOD 退货仍计入库存
+ok    非最新 EOH 的 TRANSFER_IN 不计入库存
+ok    筛选：RETURNED 状态
+ok    搜索：退货状态
+ok    LOG 导出只包含筛选后的条目
+ok    LOG 导出保留 RETURNED 状态
+ok    旧版 .ngbd 数据可读取
+ok    旧版 .ngbd 自动增加 returned_date
+ok    旧版 .ngbd 自动创建无记录销售标签
+ok    旧版 .ngbd 自动增加 transfer_out_date
+ok    schema migration adds returned_date column
+ok    schema migration adds transfer_out_date column
+ok    无 Condition 的 LOG 正常读取 RETURNED 与 TRANSFER_OUT
+ok    无 Condition LOG 的 RETURNED 计数
+ok    无 Condition LOG 的 TRANSFER_OUT 计数
+ok    无 Condition 的 RETURNED 计入库存
+ok    TRANSFER_OUT 不再产生无法识别的警告
+ok    LOG-only RETURNED 的 Condition 为未知
+ok    LOG-only RETURNED 不因 Condition 未知而丢失库存
+ok    TRANSFER_OUT 状态正确入库
+ok    TRANSFER_OUT 不计入库存
+ok    筛选：TRANSFER_OUT 状态
+ok    LOG-only RETURNED 数据库摘要库存为 1
+ok    售出不足一天按 1 天
+ok    售出条目按销售时间向上取整
+ok    未售出条目按当前时间向上取整
+ok    出库条目按出库时间计算
+ok    无入库日期时库存天数为空
+ok    已售/出库按最新事件时间排序
+ok    已售条目的最新时间为销售时间
+ok    出库条目的最新时间为出库时间
+ok    日期范围命中在库期间售出的记录
+ok    已售记录在售出后不落入后续日期范围
+ok    退货记录仍视为在库并命中后续日期
+ok    售出后退货的间隔期不算在库
+ok    售出期间的记录仍命中销售所在日期
+ok    退货后重新命中在库日期
+ok    出库记录在出库后不落入后续日期范围
+ok    仅在库与良品可分开筛选
+ok    仅良品独立生效
+ok    排除展示机与无记录销售独立生效
+ok    在库状态与 Condition 解耦
+ok    2024-08-23 及之前的出库可视为销量
+ok    老出库的销售日期使用出库时间
+ok    2024-08-24 之后的出库不视为销量
+ok    关闭开关后老出库不视为销量
+ok    销售状态筛选包含老出库
+ok    关闭开关后销售状态筛选不包含老出库
+ok    销售日期筛选包含老出库
+ok    销售日期筛选不包含截止日之后的出库
+ok    数据库摘要默认不计老出库
+ok    数据库摘要开关开启后计入老出库
+ok    创建数据库快照
+ok    快照列表记录新快照
+ok    恢复快照回到旧数据
+ok    快照最多保留最近三次
+ok    同名 .ngbd 合并条目
+ok    .ngbd 导入返回正确 Store ID
+ok    .ngbd 合并前自动创建快照
+ok    导入新的同名 .ngbd 数据库文件
+
+检查 160 项，失败 0 项。
+校验通过。

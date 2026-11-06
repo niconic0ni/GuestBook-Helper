@@ -1,0 +1,43 @@
+name: GuestBookHelper
+options:
+  minimumXcodeGenVersion: 2.46.0
+  deploymentTarget:
+    iOS: "13.0"
+  developmentLanguage: zh-Hans
+  groupSortPosition: top
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    IPHONEOS_DEPLOYMENT_TARGET: "13.0"
+    CODE_SIGN_STYLE: Automatic
+    SWIFT_STRICT_CONCURRENCY: minimal
+
+targets:
+  GuestBookHelper:
+    type: application
+    platform: iOS
+    sources:
+      - path: GuestBookHelper
+        excludes:
+          - Resources/Info.plist
+          - Resources/Samples
+      - path: GuestBookHelper/Resources/Samples
+        type: folder
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_NAME: GuestBookHelper
+        PRODUCT_BUNDLE_IDENTIFIER: com.n1c0.guestbookhelper.app
+        INFOPLIST_FILE: GuestBookHelper/Resources/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        TARGETED_DEVICE_FAMILY: "1,2"
+        CURRENT_PROJECT_VERSION: "9"
+        MARKETING_VERSION: "1.8"
+        GENERATE_INFOPLIST_FILE: NO
+        OTHER_LDFLAGS: "$(inherited) -lcompression -lsqlite3"
+        SUPPORTS_MACCATALYST: NO
+        SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: NO
+    scheme:
+      gatherCoverageData: false
